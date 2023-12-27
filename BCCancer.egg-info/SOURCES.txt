@@ -17,4 +17,5 @@ BCCancer/logger/__init__.py
 BCCancer/logger/pkglogging.py
 BCCancer/model/__init__.py
 BCCancer/model/dggroup.py
+BCCancer/model/longformer_model.py
 BCCancer/model/tor_model.py

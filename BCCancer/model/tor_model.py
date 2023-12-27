@@ -2,7 +2,7 @@ import os.path
 import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
-from logger.pkglogging import get_log_obj
+from BCCancer.logger.pkglogging import get_log_obj
 import gc
 
 logger = get_log_obj(__name__)
@@ -18,8 +18,9 @@ class Torch_model:
         self.max_len = max_length
         self.model = self.load_model()
         logger.info(f"Model: {model_name} successfully loaded from: {model_location} ")
-        tok = Torch_tokenizer(tokenizer_path,num_labels,use_fast,max_length)
-        self.tok = tok.load_tokenizer()
+        tok = Torch_tokenizer(tokenizer_path, num_labels, use_fast,max_length)
+        self.tok = tok.tokenizer
+        self.device = device
         if device == -1:
             if torch.cuda.is_available():
                 self.device = torch.cuda.current_device()
@@ -43,7 +44,7 @@ class Torch_model:
         logger.info(f"Created pipeline to perform {self.task}")
         return pipeline(self.task, model=self.model, tokenizer=self.tok, device=self.device)
 
-    def apply_model(self, data_column:pd.Series) -> pd.DataFrame:
+    def apply_model(self, data_column: pd.Series) -> pd.DataFrame:
         pipe = self.create_pipeline()
         data_input = data_column.to_list()
         output = pipe(data_input, truncation=True)
@@ -68,11 +69,11 @@ class Torch_tokenizer:
         self.num_labels = num_labels
         self.use_fast = use_fast
         self.max_len = max_length
-        self.model = self.load_tokenizer()
+        self.tokenizer = self.load_tokenizer()
         logger.info(f"Tokenizer loaded successfully from {tokenizer_path}")
 
     def load_tokenizer(self):
-        if os.path.exists(self.tokenizer_path):
-            logger.ERROR(f"Tokenizer path does not exist {self.tokenizer_path}. Please check the path and re-run")
+        if not os.path.exists(self.tokenizer_path):
+            logger.error(f"Tokenizer path does not exist {self.tokenizer_path}. Please check the path and re-run")
             raise ValueError("Tokenizer path does not exist. Please check the path and re-run")
-        return AutoTokenizer.from_pretrained(self.tokenizer_path,use_fast=True, model_max_len=512)
+        return AutoTokenizer.from_pretrained(self.tokenizer_path,use_fast=self.use_fast, model_max_len=self.max_len)

@@ -14,7 +14,7 @@ import pandas as pd
 import pyodbc
 class SqlserverConn:
     def __init__(self, server: str, database: str, username: str = None, password: str = None):
-        self.connection_string = 'DRIVER={ODBC Driver 17 for SQL Server};' + f"Server={server};Database={database};Trusted_Connection=yes;"
+        self.connection_string = 'DRIVER={ODBC Driver 17 for SQL Server};' + f"Server={server};Database={database};UID={username};PWD={password};Trusted_Connection=yes;"
         print(self.connection_string)
         self.conn = None
         self.connect()

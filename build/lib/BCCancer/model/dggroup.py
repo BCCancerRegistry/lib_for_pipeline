@@ -18,11 +18,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipe
 
 import pandas as pd
 import re
-from os.path import join
-import gc
-import torch
-from get_data import get_messages
-from model.tor_model import Torch_model
+from BCCancer.model.tor_model import Torch_model
 
 def apply_model(data:pd.DataFrame, model_name, model_location, tokenizer_path, model_labels:pd.DataFrame, max_length:int, device:int, task:str ="text-classification", apply_on_column:str = "Prepped_Message"):
     """
