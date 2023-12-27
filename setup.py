@@ -1,10 +1,12 @@
-from setuptools import setup
-with open('requirements.txt') as f:
-    required = f.read().splitlines()
-setup(name='bccandatapipe',
-      version='1.0',
-      description='ML Pipeline for BC Cancer',
-      author='Sunny Rathee',
-      author_email='sunny.rathee@phsa.ca',
-      packages=required,
-     )
+from setuptools import find_packages, setup
+
+requirements = [line.strip() for line in open("requirements.txt").readlines()]
+
+setup(
+    name='BCCancer',
+    version='1.0.0',
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=requirements,
+)
