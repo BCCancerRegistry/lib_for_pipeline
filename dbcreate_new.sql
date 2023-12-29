@@ -147,6 +147,9 @@ ALTER TABLE ONLY public.prediction_table
 ALTER TABLE ONLY public.preped_data
     ADD CONSTRAINT preped_data_pkey PRIMARY KEY (batch_id, msgid);
 
+ALTER TABLE ONLY public.cleaned_data
+    ADD CONSTRAINT clean_data_batch_id_fkey FOREIGN KEY (batch_id) REFERENCES public.batch(batch_id);
+
 
 ALTER TABLE ONLY public.labels
     ADD CONSTRAINT labels_model_id_fkey FOREIGN KEY (model_id) REFERENCES public.model(model_id);
@@ -174,12 +177,6 @@ GRANT SELECT ON TABLE public.batch TO bccancer_de_ro_gp;
 
 GRANT USAGE ON SEQUENCE public.batch_batch_id_seq TO bccancer_de_rw_gp;
 
-
-GRANT SELECT,INSERT,UPDATE ON TABLE public.batch_test TO bccancer_de_rw_gp;
-GRANT SELECT ON TABLE public.batch_test TO bccancer_de_ro_gp;
-
-
-GRANT USAGE ON SEQUENCE public.batch_test_batch_id_seq TO bccancer_de_rw_gp;
 
 
 GRANT ALL ON TABLE public.cleaned_data TO bccancer_admin;
@@ -222,6 +219,5 @@ GRANT SELECT ON TABLE public.preped_data TO bccancer_de_ro_gp;
 GRANT ALL ON TABLE public.section_regex TO bccancer_admin;
 GRANT SELECT,INSERT,UPDATE ON TABLE public.section_regex TO bccancer_de_rw_gp;
 GRANT SELECT ON TABLE public.section_regex TO bccancer_de_ro_gp;
-
 
 
