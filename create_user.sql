@@ -7,7 +7,7 @@ CREATE ROLE bccancer_admin WITH
   NOREPLICATION
   ENCRYPTED PASSWORD 'md5057afd3d29b2df7a535e890d5020d7bc';
 
-- Role: bccancer_de_ro_gp
+-- Role: bccancer_de_ro_gp
 -- DROP ROLE IF EXISTS bccancer_de_ro_gp;
 
 CREATE ROLE bccancer_de_ro_gp WITH
